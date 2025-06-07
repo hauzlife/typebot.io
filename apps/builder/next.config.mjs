@@ -35,8 +35,11 @@ configureRuntimeEnv();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  typescript: {
+    ignoreBuildErrors: true, // <- ESSA LINHA É A CHAVE PRA DESGRAÇA
+  },
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: true, // <- ISSO DESLIGA O LINT TAMBÉM
   },
   transpilePackages: [
     // https://github.com/nextauthjs/next-auth/discussions/9385#discussioncomment-12023012

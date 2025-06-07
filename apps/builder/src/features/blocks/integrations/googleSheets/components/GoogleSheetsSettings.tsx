@@ -264,7 +264,8 @@ const ActionOptions = ({
                     options.totalRowsToExtract ??
                     defaultGoogleSheetsOptions.totalRowsToExtract
                   }
-                  onItemSelect={updateTotalRowsToExtract}
+                  onItemSelect={(value) => updateTotalRowsToExtract(value as GoogleSheetsGetOptions["totalRowsToExtract"])}
+
                 />
                 <RowsFilterTableList
                   columns={sheet?.columns ?? []}

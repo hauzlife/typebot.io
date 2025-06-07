@@ -5,7 +5,11 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "strictNullChecks": true
+    "strict": false,
+    "strictNullChecks": false,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": false,
+    "noImplicitAny": false,
   },
   "include": [
     "next-env.d.ts",

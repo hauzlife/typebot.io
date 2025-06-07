@@ -52,8 +52,9 @@
   "devDependencies": {
     "@typebot.io/forge": "workspace:*",
     "@typebot.io/forge-repository": "workspace:*",
+    "@typebot.io/tsconfig": "workspace:*",
     "@types/nodemailer": "6.4.14",
     "@types/qs": "6.9.7",
-    "@typebot.io/tsconfig": "workspace:*"
+    "esbuild": "0.24.0"
   }
 }

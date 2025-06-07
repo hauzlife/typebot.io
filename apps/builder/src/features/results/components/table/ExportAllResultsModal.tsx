@@ -63,7 +63,7 @@ export const ExportAllResultsModal = ({ isOpen, onClose }: Props) => {
       typebotId,
       timeFilter: "allTime",
     });
-    const allResults = [];
+    const allResults: any[] = [];
     let cursor: string | undefined;
     setExportProgressValue(0);
     do {
@@ -75,6 +75,21 @@ export const ExportAllResultsModal = ({ isOpen, onClose }: Props) => {
             cursor,
             timeFilter: "allTime",
           });
+                try {
+        const { results, nextCursor } =
+          await trpcContext.results.getResults.fetch({
+            typebotId,
+            limit: 100,
+            cursor,
+            timeFilter: "allTime",
+          });
+        allResults.push(...results);
+        setExportProgressValue((allResults.length / totalStarts) * 100);
+        cursor = nextCursor ?? undefined;
+      } catch (error) {
+        toast({ description: (error as TRPCError).message });
+        return [];
+      }
         allResults.push(...results);
         setExportProgressValue((allResults.length / totalStarts) * 100);
         cursor = nextCursor ?? undefined;

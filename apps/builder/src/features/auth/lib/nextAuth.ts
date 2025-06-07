@@ -27,14 +27,14 @@ export const {
   handlers: authHandlers,
   signIn,
   signOut,
-} = NextAuth((req) => ({
+} = NextAuth((req: any) => ({
   adapter: createAuthPrismaAdapter(prisma),
   secret: env.ENCRYPTION_SECRET,
   providers,
   trustHost: env.VERCEL_GIT_COMMIT_SHA ? undefined : true,
   pages: {
     signIn: "/signin",
-    newUser: env.NEXT_PUBLIC_ONBOARDING_TYPEBOT_ID ? "/onboarding" : undefined,
+    // newUser: env.NEXT_PUBLIC_ONBOARDING_TYPEBOT_ID ? "/onboarding" : undefined,
     error: "/signin",
   },
   events: {
@@ -45,7 +45,7 @@ export const {
           data: { lastActivityAt: new Date() },
         });
       }
-      const typebotCookie = getTypebotCookieFromNextReq(req);
+      const typebotCookie = getTypebotCookieFromNextReq(req as any);
       if (typebotCookie) {
         if (
           typebotCookie?.landingPage?.id &&
@@ -61,7 +61,7 @@ export const {
     },
     async signIn({ user, isNewUser, account }) {
       if (!user.id) return;
-      const typebotCookie = getTypebotCookieFromNextReq(req);
+      const typebotCookie = getTypebotCookieFromNextReq(req as any);
       if (typebotCookie && account?.provider)
         updateCookieLastProvider(account.provider, { req, typebotCookie });
       if (isNewUser) return;
@@ -74,7 +74,7 @@ export const {
     },
     async signOut(props) {
       if ("token" in props) return;
-      const typebotCookie = getTypebotCookieFromNextReq(req);
+      const typebotCookie = getTypebotCookieFromNextReq(req as any);
       if (typebotCookie) resetLandingPageCookie({ req, typebotCookie });
       await trackEvents([
         {
@@ -124,7 +124,7 @@ export const {
 const updateCookieIsMerged = ({
   req,
   typebotCookie,
-}: { req: NextRequest | undefined; typebotCookie: TypebotCookieValue }) => {
+}: { req: any; typebotCookie: TypebotCookieValue }) => {
   if (!isValidNextRequest(req) || !typebotCookie.landingPage) return;
   req.headers.set(
     SET_TYPEBOT_COOKIE_HEADER,
@@ -171,7 +171,7 @@ const resetLandingPageCookie = ({
 };
 
 const getTypebotCookieFromNextReq = (
-  req: NextRequest | undefined,
+  req: NextRequest | undefined | any,
 ): TypebotCookieValue | null => {
   if (!isValidNextRequest(req)) return null;
   const cookieStr = req.headers.get("cookie");

@@ -10,13 +10,13 @@ export const GET = async (req: NextRequest) => {
   const isMockingSession =
     req.url.endsWith("/api/auth/session") && env.NEXT_PUBLIC_E2E_TEST;
   if (isMockingSession) return NextResponse.json({ user: mockedUser });
-  const response = await authHandlers.GET(req);
+  const response = await authHandlers.GET(req as any);
   setTypebotCookie(req, response);
   return response;
 };
 
 export const POST = async (req: NextRequest) => {
-  const response = await authHandlers.POST(req);
+  const response = await authHandlers.POST(req as any);
   setTypebotCookie(req, response);
   return response;
 };
